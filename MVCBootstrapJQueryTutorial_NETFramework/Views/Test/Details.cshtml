@@ -1,0 +1,15 @@
+﻿@model MVCBootstrapJQueryTutorial_NETFramework.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "Selected Employee Details";
+}
+<h2>@ViewBag.Title</h2>
+@if(Model != null)
+{
+<ul class="list-group">
+    <li class="list-group-item active">@Model.Name Details</li>
+    <li class="list-group-item">Employee Id: @Model.EmployeeId</li>
+    <li class="list-group-item">Department Id: @Model.DepartmentId</li>
+    <li class="list-group-item">Department Name: @Model.DepartmentName</li>
+    <li class="list-group-item">Address: @Model.Address</li>
+</ul>
+}

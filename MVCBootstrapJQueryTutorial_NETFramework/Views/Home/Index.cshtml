@@ -1,0 +1,28 @@
+﻿@model IEnumerable<MVCBootstrapJQueryTutorial_NETFramework.Models.Employee>
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<table class="table table-striped" style="width: 60%">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Department</th>
+    </tr>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var emp in Model)
+            {
+                <tr>
+                    <td>@emp.EmployeeID</td>
+                    <td>@emp.Name</td>
+                    <td>@emp.Department</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
