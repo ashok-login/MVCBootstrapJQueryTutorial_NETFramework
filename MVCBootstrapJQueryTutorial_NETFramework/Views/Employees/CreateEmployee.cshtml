@@ -1,0 +1,32 @@
+﻿@model MVCBootstrapJQueryTutorial_NETFramework.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "Create Employee";
+}
+<h2>@ViewBag.Title</h2>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<style type="text/css">
+    .error {
+        color: red;
+    }
+</style>
+<div class="container" style="margin-top: 2%">
+    @using (Html.BeginForm("CreateEmployee", "Employees", FormMethod.Post))
+    {
+        @Html.DropDownListFor(x => x.DepartmentId,
+        ViewBag.DepartmentList as SelectList,
+        "--Select--",
+        new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.DepartmentId, "", new { @class = "error" })
+
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder = "Enter name" })
+        @Html.ValidationMessageFor(x => x.Name, "", new { @class = "error" })
+
+        @Html.TextBoxFor(x => x.Address, new { @class = "form-control", placeholder = "Enter address" })
+        @Html.ValidationMessageFor(x => x.Address, "", new { @class = "error" })
+
+        <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+    }
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

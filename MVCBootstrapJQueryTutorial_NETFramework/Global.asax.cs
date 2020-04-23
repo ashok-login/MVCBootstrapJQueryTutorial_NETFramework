@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MVCBootstrapJQueryTutorial_NETFramework.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +14,7 @@ namespace MVCBootstrapJQueryTutorial_NETFramework
     {
         protected void Application_Start()
         {
+            Database.SetInitializer<MyDatabaseContext>(null);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

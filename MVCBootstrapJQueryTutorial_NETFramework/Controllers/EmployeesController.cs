@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MVCBootstrapJQueryTutorial_NETFramework.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+//Stop doing undo
 namespace MVCBootstrapJQueryTutorial_NETFramework.Controllers
 {
     public class EmployeesController : Controller
@@ -13,16 +14,35 @@ namespace MVCBootstrapJQueryTutorial_NETFramework.Controllers
             return View();
         }
 
-        public ActionResult CreaateEmployee()
+        public ActionResult CreateEmployee()
         {
+            FillDepartmentsDropdownList();
             return View();
         }
 
         [HttpPost]
-        public JsonResult CreateEmployee()
+        public ActionResult CreateEmployee(EmployeeViewModel model)
         {
-            var details = "test";
-            return Json(details);
+            if (ModelState.IsValid)
+            {
+                var emp = new Employee();
+                emp.Name = model.Name;
+                emp.Address = model.Address;
+                emp.DepartmentId = model.DepartmentId;
+                var db = new MyDatabaseContext();
+                db.Employees.Add(emp);
+                db.SaveChanges();
+            }
+            FillDepartmentsDropdownList();
+            return View();
         }
+
+        private void FillDepartmentsDropdownList()
+        {
+            var db = new MyDatabaseContext();
+            var departments = db.Departments.ToList();
+            ViewBag.DepartmentList = new SelectList(departments, "DepartmentId", "DepartmentName");
+        }
+
     }
 }
