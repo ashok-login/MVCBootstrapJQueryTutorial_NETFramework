@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 //Stop doing undo
@@ -30,6 +31,7 @@ namespace MVCBootstrapJQueryTutorial_NETFramework.Controllers
                 emp.Address = model.Address;
                 emp.DepartmentId = model.DepartmentId;
                 var db = new MyDatabaseContext();
+                Thread.Sleep(3000);
                 db.Employees.Add(emp);
                 db.SaveChanges();
             }
