@@ -13,5 +13,8 @@ namespace MVCBootstrapJQueryTutorial_NETFramework.Models
         public string Name { get; set; }
         public int DepartmentId { get; set; }
         public string Address { get; set; }
+        public bool IsDeleted { get; set; }
+
+        public Department Department { get; set; }
     }
 }

@@ -1,0 +1,27 @@
+﻿@model MVCBootstrapJQueryTutorial_NETFramework.Models.EmployeeViewModel
+<table class="table table-bordered">
+    @if (Model != null)
+    {
+        <h3>View details of employee id: @Model.EmployeeId</h3>
+        <tr>
+            <td><b>Employee Id</b></td>
+            <td>@Model.EmployeeId</td>
+        </tr>
+        <tr>
+            <td><b>Name</b></td>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <td><b>Address</b></td>
+            <td>@Model.Address</td>
+        </tr>
+        <tr>
+            <td><b>Department Id</b></td>
+            <td>@Model.DepartmentId</td>
+        </tr>
+        <tr>
+            <td><b>Department Name</b></td>
+            <td>@Model.DepartmentName</td>
+        </tr>
+    }
+</table>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-//Stop doing undo
+
 namespace MVCBootstrapJQueryTutorial_NETFramework.Controllers
 {
     public class EmployeesController : Controller
@@ -37,6 +37,78 @@ namespace MVCBootstrapJQueryTutorial_NETFramework.Controllers
             }
             FillDepartmentsDropdownList();
             return View();
+        }
+
+        public ActionResult ManageEmployee(EmployeeViewModel model)
+        {
+            var db = new MyDatabaseContext();
+            var employees = db.Employees
+                        .Where(x => x.IsDeleted == false)
+                        .Select(x=> new EmployeeViewModel {
+                            EmployeeId = x.EmployeeId,
+                            Name = x.Name,
+                            DepartmentId = x.DepartmentId,
+                            DepartmentName = x.Department.DepartmentName,
+                            Address = x.Address
+                        })
+                        .ToList();
+            ViewBag.EmployeeList = employees;
+            return View();
+        }
+
+        public JsonResult DeleteEmployee(int EmployeeId)
+        {
+            var db = new MyDatabaseContext();
+            bool result = false;
+            Employee emp = db.Employees
+                            .SingleOrDefault(x => x.IsDeleted == false &&
+                                    x.EmployeeId == EmployeeId);
+            if(emp != null)
+            {
+                emp.IsDeleted = true;
+                Thread.Sleep(5000);
+                // db.SaveChanges();
+                result = true;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ViewEmployees()
+        {
+            var db = new MyDatabaseContext();
+            var employees = db.Employees
+                        .Where(x => x.IsDeleted == false)
+                        .Select(x => new EmployeeViewModel {
+                            EmployeeId = x.EmployeeId,
+                            Name = x.Name,
+                            Address = x.Address,
+                            DepartmentId = x.DepartmentId,
+                            DepartmentName = x.Department.DepartmentName
+                        })
+                        .ToList();
+            ViewBag.EmployeesList = employees;
+            return View();
+        }
+
+        public ActionResult GetEmployeeById(int empId)
+        {
+            var db = new MyDatabaseContext();
+            var emp = db.Employees
+                    .Where(x => x.EmployeeId == empId)
+                    .Select(x => new EmployeeViewModel { 
+                        EmployeeId = x.EmployeeId,
+                        Name = x.Name,
+                        Address = x.Address,
+                        DepartmentId = x.DepartmentId,
+                        DepartmentName = x.Department.DepartmentName
+                    })
+                    .SingleOrDefault();
+            return PartialView("_ShowEmployeeByIdPartialView", emp);
+        }
+
+        public ActionResult ShowEmployeesPartialView()
+        {
+            return PartialView("_EmployeesPartialView");
         }
 
         private void FillDepartmentsDropdownList()

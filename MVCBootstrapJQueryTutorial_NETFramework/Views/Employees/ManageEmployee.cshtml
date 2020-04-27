@@ -1,0 +1,94 @@
+﻿@model MVCBootstrapJQueryTutorial_NETFramework.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "Manage Employee Details";
+}
+<h2>@ViewBag.Title</h2>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<div class="container" style="width: 40%; margin-top: 2%">
+    @Html.Partial("/Views/Employees/_EmployeesPartialView.cshtml");
+    @{
+        Html.RenderPartial("/Views/Employees/_EmployeesPartialView.cshtml", Model);
+    }
+    @{ 
+        Html.RenderAction("ShowEmployeesPartialView");
+    }
+    <table class="table table-responsive">
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+        <tbody>
+            @if (ViewBag.EmployeeList != null)
+            {
+                foreach (var item in ViewBag.EmployeeList)
+                {
+                    <tr id="row_@item.EmployeeId">
+                        <td>@item.Name</td>
+                        <td>@item.DepartmentName</td>
+                        <td>@item.Address</td>
+                        <td>
+                            <a href="#" class="btn btn-danger"
+                               onclick="ConfirmDelete(@item.EmployeeId)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <input type="hidden" id="hiddenEmployeeId" />
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Delete Employee</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>Are you sure you want to delete this employee</h4>
+                    <div style="text-align: center; display: none" id="loaderDiv">
+                        <img src="~/Content/Images/wait_anim.gif" width="150" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a href="#" class="btn btn-success" onclick="DeleteEmployee()">
+                        Confirm
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ConfirmDelete = function (empId) {
+        $("#hiddenEmployeeId").val(empId);
+        $("#myModal").modal('show');
+    };
+
+    var DeleteEmployee = function () {
+        $("#laderDiv").show();
+        var empId = $("#hiddenEmployeeId").val();
+        $.ajax({
+            type: "POST",
+            url: "/Employees/DeleteEmployee",
+            data: { EmployeeId: empId },
+            success: function (result) {
+                $("#myModal").modal('hide');
+                $("#row_" + empId).remove();
+            },
+            beforeSend: function () {
+                $("#loaderDiv").show();
+            },
+            complete: function () {
+                $("#loaderDiv").hide();
+            }
+        });
+    }
+</script>

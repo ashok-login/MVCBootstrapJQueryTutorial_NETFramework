@@ -180,6 +180,9 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Details.cshtml" />
     <Content Include="Views\Employees\CreateEmployee.cshtml" />
+    <Content Include="Views\Employees\ManageEmployee.cshtml" />
+    <Content Include="Views\Employees\_ShowEmployeeByIdPartialView.cshtml" />
+    <Content Include="Views\Employees\ViewEmployees.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

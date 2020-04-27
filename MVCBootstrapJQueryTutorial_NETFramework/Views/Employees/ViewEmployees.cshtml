@@ -1,0 +1,63 @@
+﻿@model MVCBootstrapJQueryTutorial_NETFramework.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "View Employees";
+}
+<h2>@ViewBag.Title</h2>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @if (ViewBag.EmployeesList != null)
+        {
+            foreach (var emp in ViewBag.EmployeesList)
+            {
+                <tr>
+                    <td>@emp.EmployeeId</td>
+                    <td>@emp.Name</td>
+                    <td>@emp.Address</td>
+                    <td>
+                        <a href="#" class="btn btn-success"
+                           onclick="ViewEmployee(@emp.EmployeeId)">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </a>
+                    </td>
+                </tr>
+            };
+       };
+    </tbody>
+</table>
+<div class="modal fade" id="viewEmployee">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="myModalBodyDiv">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    ViewEmployee = function (empId) {
+        $.ajax({
+            type: "POST",
+            url: "/Employees/GetEmployeeById/",
+            data: { empId: empId },
+            success: function (result) {
+                $("#myModalBodyDiv").html(result);
+                $("#viewEmployee").modal("show");
+            }
+        });
+    }
+</script>
